@@ -179,8 +179,6 @@ easygoadmin
 
 ![效果图](./uploads/demo/24.png)
 
-![效果图](./uploads/demo/25.png)
-
 
 ## 🍻 贡献者名单
 
