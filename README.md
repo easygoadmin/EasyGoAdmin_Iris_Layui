@@ -44,10 +44,6 @@
 ---|---|---
 admin | 123456| 演示环境无法进行修改删除操作
 
-## 👷 技术支持
-
-`如需技术支持，请至官网联系官方QQ客服`
-
 ## 📌 版本说明
 版本名称 | 版本说明 | 版本地址
 ---|---|---
@@ -131,61 +127,53 @@ easygoadmin
 
 ## 🔧 模块展示
 
-![效果图](./uploads/demo/1.png)
+![效果图](./public/uploads/demo/1.png)
 
-![效果图](./uploads/demo/2.png)
+![效果图](./public/uploads/demo/2.png)
 
-![效果图](./uploads/demo/3.png)
+![效果图](./public/uploads/demo/3.png)
 
-![效果图](./uploads/demo/4.png)
+![效果图](./public/uploads/demo/4.png)
 
-![效果图](./uploads/demo/5.png)
+![效果图](./public/uploads/demo/5.png)
 
-![效果图](./uploads/demo/6.png)
+![效果图](./public/uploads/demo/6.png)
 
-![效果图](./uploads/demo/7.png)
+![效果图](./public/uploads/demo/7.png)
 
-![效果图](./uploads/demo/8.png)
+![效果图](./public/uploads/demo/8.png)
 
-![效果图](./uploads/demo/9.png)
+![效果图](./public/uploads/demo/9.png)
 
-![效果图](./uploads/demo/10.png)
+![效果图](./public/uploads/demo/10.png)
 
-![效果图](./uploads/demo/11.png)
+![效果图](./public/uploads/demo/11.png)
 
-![效果图](./uploads/demo/12.png)
+![效果图](./public/uploads/demo/12.png)
 
-![效果图](./uploads/demo/13.png)
+![效果图](./public/uploads/demo/13.png)
 
-![效果图](./uploads/demo/14.png)
+![效果图](./public/uploads/demo/14.png)
 
-![效果图](./uploads/demo/15.png)
+![效果图](./public/uploads/demo/15.png)
 
-![效果图](./uploads/demo/16.png)
+![效果图](./public/uploads/demo/16.png)
 
-![效果图](./uploads/demo/17.png)
+![效果图](./public/uploads/demo/17.png)
 
-![效果图](./uploads/demo/18.png)
+![效果图](./public/uploads/demo/18.png)
 
-![效果图](./uploads/demo/19.png)
+![效果图](./public/uploads/demo/19.png)
 
-![效果图](./uploads/demo/20.png)
+![效果图](./public/uploads/demo/20.png)
 
-![效果图](./uploads/demo/21.png)
+![效果图](./public/uploads/demo/21.png)
 
-![效果图](./uploads/demo/22.png)
+![效果图](./public/uploads/demo/22.png)
 
-![效果图](./uploads/demo/23.png)
+![效果图](./public/uploads/demo/23.png)
 
-![效果图](./uploads/demo/24.png)
-
-
-## 🍻 贡献者名单
-
-@半城风雨
-
-## 🍻  安全&缺陷
-如果你发现了一个安全漏洞或缺陷，请发送邮件到 easygoadmin@163.com,所有的安全漏洞都将及时得到解决。
+![效果图](./public/uploads/demo/24.png)
 
 ## ✨  特别鸣谢
 感谢[Iris](https://iris-go.com/)、[Layui](http://www.layui.com)等优秀开源项目。
