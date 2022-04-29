@@ -43,8 +43,8 @@ layui.use(['layer', 'form', 'table', 'util', 'admin', 'func'], function () {
             '</p>'].join(''),
         defaultToolbar: [],
         cols: [[
-            {field: 'Id', width: 80, title: 'ID', align: 'center'}
-            , {field: 'Name', title: '配置名称'}
+            {field: 'id', width: 80, title: 'ID', align: 'center'}
+            , {field: 'name', title: '配置名称'}
         ]],
         done: function (res, curr, count) {
             $('#configTable+.layui-table-view .layui-table-body tbody>tr:first').trigger('click');
@@ -72,7 +72,7 @@ layui.use(['layer', 'form', 'table', 'util', 'admin', 'func'], function () {
     table.on('row(configTable)', function (obj) {
         selObj = obj;
         obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
-        insTb2.reload({where: {configId: obj.data.Id}, page: {curr: 1}, url: '/configdata/list'});
+        insTb2.reload({where: {configId: obj.data.id}, page: {curr: 1}, url: '/configdata/list'});
     });
 
     /* 显示表单弹窗 */
@@ -115,9 +115,7 @@ layui.use(['layer', 'form', 'table', 'util', 'admin', 'func'], function () {
         }, function (i) {
             layer.close(i);
             var loadIndex = layer.load(2);
-            $.post('/config/delete', {
-                id: obj.data.Id,
-            }, function (res) {
+            $.post('/config/delete/'+ obj.data.id, {}, function (res) {
                 layer.close(loadIndex);
                 if (0 === res.code) {
                     layer.msg(res.msg, {icon: 1});
@@ -144,23 +142,23 @@ layui.use(['layer', 'form', 'table', 'util', 'admin', 'func'], function () {
         cellMinWidth: 100,
         cols: [[
             {type: 'checkbox', fixed: 'left'}
-            , {field: 'Id', width: 80, title: 'ID', align: 'center', sort: true, fixed: 'left'}
-            , {field: 'Title', width: 150, title: '配置标题', align: 'center'}
-            , {field: 'Code', width: 150, title: '配置标签符', align: 'center'}
-            , {field: 'Value', width: 150, title: '配置值', align: 'center'}
-            , {field: 'Options', width: 100, title: '配置项', align: 'center'}
-            , {field: 'Type', width: 100, title: '配置类型', align: 'center', templet(d) {
+            , {field: 'id', width: 80, title: 'ID', align: 'center', sort: true, fixed: 'left'}
+            , {field: 'title', width: 150, title: '配置标题', align: 'center'}
+            , {field: 'code', width: 150, title: '配置标签符', align: 'center'}
+            , {field: 'value', width: 150, title: '配置值', align: 'center'}
+            , {field: 'options', width: 100, title: '配置项', align: 'center'}
+            , {field: 'type', width: 100, title: '配置类型', align: 'center', templet(d) {
                     var cls = "";
-                    return '<span class="layui-btn ' + cls + ' layui-btn-xs">' + d.TypeName + '</span>';
+                    return '<span class="layui-btn ' + cls + ' layui-btn-xs">' + d.typeName + '</span>';
                 }
             }
-            , {field: 'Status', width: 100, title: '状态', align: 'center', templet: function (d) {
-                return  '<input type="checkbox" name="status" value="' + d.Id + '" lay-skin="switch" lay-text="正常|禁用" lay-filter="status" '+(d.Status==1 ? 'checked' : '')+'>';
+            , {field: 'status', width: 100, title: '状态', align: 'center', templet: function (d) {
+                return  '<input type="checkbox" name="status" value="' + d.id + '" lay-skin="switch" lay-text="正常|禁用" lay-filter="status" '+(d.status==1 ? 'checked' : '')+'>';
             }}
-            , {field: 'Sort', width: 100, title: '排序号', align: 'center'}
-            , {field: 'Note', width: 100, title: '配置说明', align: 'center'}
-            , {field: 'CreateTime', width: 180, title: '添加时间', align: 'center', templet:"<div>{{layui.util.toDateString(d.CreateTime*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
-            , {field: 'UpdateTime', width: 180, title: '更新时间', align: 'center', templet:"<div>{{layui.util.toDateString(d.UpdateTime*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
+            , {field: 'sort', width: 100, title: '排序号', align: 'center'}
+            , {field: 'note', width: 100, title: '配置说明', align: 'center'}
+            , {field: 'create_time', width: 180, title: '添加时间', align: 'center', templet:"<div>{{layui.util.toDateString(d.create_time*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
+            , {field: 'update_time', width: 180, title: '更新时间', align: 'center', templet:"<div>{{layui.util.toDateString(d.update_time*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
             , {title: '操作', toolbar: '#configDataTbBar', align: 'center', width: 120, minWidth: 120, fixed: 'right'}
         ]]
     });
@@ -191,7 +189,7 @@ layui.use(['layer', 'form', 'table', 'util', 'admin', 'func'], function () {
                 return;
             }
             var ids = checkRows.data.map(function (d) {
-                return d.Id;
+                return d.id;
             });
             doDel2({ids: ids});
         }
@@ -209,7 +207,7 @@ layui.use(['layer', 'form', 'table', 'util', 'admin', 'func'], function () {
                 form.val('configDataEditForm', mData);
                 // 表单提交事件
                 form.on('submit(configDataEditSubmit)', function (data) {
-                    data.field.ConfigId = selObj.data.Id;
+                    data.field.configId = selObj.data.id;
                     var loadIndex = layer.load(2);
                     $.post(mData ? '/configdata/update' : '/configdata/add', data.field, function (res) {
                         layer.close(loadIndex);
@@ -237,11 +235,11 @@ layui.use(['layer', 'form', 'table', 'util', 'admin', 'func'], function () {
             var loadIndex = layer.load(2);
             var ids = []
             if (obj.data) {
-                ids = [obj.data.Id]
+                ids = [obj.data.id]
             } else if (obj.ids) {
                 ids = obj.ids;
             }
-            $.post('/configdata/delete', {id: ids.join(",")}, function (res) {
+            $.post('/configdata/delete/' +ids.join(",") , {}, function (res) {
                 layer.close(loadIndex);
                 if (0 === res.code) {
                     layer.msg(res.msg, {icon: 1});

@@ -1,7 +1,10 @@
 package main
 
 import (
+	_ "easygoadmin/initialize/config"
 	"easygoadmin/router"
+	"easygoadmin/utils/cfg"
+	"fmt"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/middleware/logger"
 	"github.com/kataras/iris/v12/middleware/recover"
@@ -18,7 +21,7 @@ func main() {
 	//记录请求日志
 	app.Use(logger.New())
 	// 初始化配置
-	config := iris.WithConfiguration(iris.YAML("./config/config.yml"))
+	config := iris.WithConfiguration(iris.YAML("./conf/config.yml"))
 	// 路由注册
 	router.RegisterRouter(app)
 
@@ -27,6 +30,25 @@ func main() {
 	//app.Handle("GET", "/", func(ctx iris.Context) {
 	//	ctx.HTML("<h1>Welcome</h1>")
 	//})
+
+	app.Get("/message", func(ctx iris.Context) {
+		// 绑定kv
+		ctx.ViewData("message", "Hello world!")
+		// 渲染模板文件./views.hello.html
+		ctx.View("hello.html")
+	})
+
+	//// 职级管理
+	//level := app.Party("/message2")
+	//{
+	//	level.Get("/index", func(ctx iris.Context) {
+	//		// 绑定kv
+	//		ctx.ViewData("message", "Hello world!")
+	//		// 渲染模板文件./views.hello.html
+	//		ctx.View("level/edit.html")
+	//	})
+	//}
+
 	//
 	//// 等价于 app.Handle("GET", "/ping", [...])
 	//// 谓词:   GET
@@ -50,4 +72,11 @@ func main() {
 	// Listens and serves incoming http requests
 	// on http://localhost:8081.
 	app.Run(iris.Addr(":9087"), config)
+
+	// 实例化配置
+	cfg := cfg.Instance()
+	if cfg == nil {
+		fmt.Printf("参数错误")
+		return
+	}
 }

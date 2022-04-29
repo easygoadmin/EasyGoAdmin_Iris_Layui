@@ -14,7 +14,7 @@
 /**
  * 演示二管理
  * @author 半城风雨
- * @since 2022-04-15
+ * @since 2022-04-29
  */
 layui.use(['func'], function () {
 
@@ -26,24 +26,24 @@ layui.use(['func'], function () {
         //【TABLE列数组】
         var cols = [
             {type: 'checkbox', fixed: 'left'}
-            , {field: 'Id', width: 80, title: 'ID', align: 'center', sort: true, fixed: 'left'}
+            , {field: 'id', width: 80, title: 'ID', align: 'center', sort: true, fixed: 'left'}
         
              
-			, {field: 'Name', width: 100, title: '演示名称', align: 'center'}
+			, {field: 'name', width: 100, title: '演示名称', align: 'center'}
             
         
             
-            , {field: 'Status', width: 100, title: '状态', align: 'center', templet: function (d) {
-				return  '<input type="checkbox" name="Status" value="'+d.Id+'" lay-skin="switch" lay-text="正常|停用" lay-filter="Status" '+(d.Status==1 ? 'checked' : '')+'>';
+            , {field: 'status', width: 100, title: '状态', align: 'center', templet: function (d) {
+				return  '<input type="checkbox" name="status" value="'+d.id+'" lay-skin="switch" lay-text="正常|停用" lay-filter="status" '+(d.status==1 ? 'checked' : '')+'>';
             }}
             
         
              
-			, {field: 'Sort', width: 100, title: '排序号', align: 'center'}
+			, {field: 'sort', width: 100, title: '排序号', align: 'center'}
             
         
-            , {field: 'CreateTime', width: 180, title: '添加时间', align: 'center'}
-            , {field: 'UpdateTime', width: 180, title: '更新时间', align: 'center'}
+            , {field: 'create_time', width: 180, title: '添加时间', align: 'center'}
+            , {field: 'update_time', width: 180, title: '更新时间', align: 'center'}
             , {fixed: 'right', width: 150, title: '功能操作', align: 'center', toolbar: '#toolBar'}
         ];
 

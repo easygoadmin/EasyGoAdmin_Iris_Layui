@@ -38,8 +38,8 @@ layui.use(['layer', 'form', 'table', 'util', 'admin'], function () {
             '</p>'].join(''),
         defaultToolbar: [],
         cols: [[
-            {field: 'Id', width: 80, title: 'ID', align: 'center'}
-            ,{field: 'Name', title: '字典名称'}
+            {field: 'id', width: 80, title: 'ID', align: 'center'}
+            ,{field: 'name', title: '字典名称'}
         ]],
         done: function (res, curr, count) {
             $('#dictTable+.layui-table-view .layui-table-body tbody>tr:first').trigger('click');
@@ -67,13 +67,11 @@ layui.use(['layer', 'form', 'table', 'util', 'admin'], function () {
     table.on('row(dictTable)', function (obj) {
         selObj = obj;
         obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
-        insTb2.reload({where: {dictId: obj.data.Id}, page: {curr: 1}, url: '/dictdata/list'});
+        insTb2.reload({where: {dictId: obj.data.id}, page: {curr: 1}, url: '/dictdata/list'});
     });
 
     /* 显示表单弹窗 */
     function showEditModel(mData, obj) {
-        console.log(mData)
-        console.log(obj)
         admin.open({
             type: 1,
             title: (mData ? '修改' : '添加') + '字典',
@@ -112,9 +110,7 @@ layui.use(['layer', 'form', 'table', 'util', 'admin'], function () {
         }, function (i) {
             layer.close(i);
             var loadIndex = layer.load(2);
-            $.post('/dict/delete', {
-                id: obj.data.Id,
-            }, function (res) {
+            $.post('/dict/delete/' + obj.data.id, {}, function (res) {
                 layer.close(loadIndex);
                 if (0 === res.code) {
                     layer.msg(res.msg, {icon: 1});
@@ -141,13 +137,13 @@ layui.use(['layer', 'form', 'table', 'util', 'admin'], function () {
         cellMinWidth: 100,
         cols: [[
             {type: 'checkbox', fixed: 'left'}
-            , {field: 'Id', width: 80, title: 'ID', align: 'center', sort: true, fixed: 'left'}
-            , {field: 'Name', width: 200, title: '字典项名称', align: 'center'}
-            , {field: 'Code', width: 150, title: '字典项编码', align: 'center'}
-            , {field: 'Sort', width: 80, title: '排序号', align: 'center'}
-            , {field: 'Note', width: 200, title: '备注', align: 'center'}
-            , {field: 'CreateTime', width: 180, title: '添加时间', align: 'center', templet:"<div>{{layui.util.toDateString(d.CreateTime*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
-            , {field: 'UpdateTime', width: 180, title: '更新时间', align: 'center', templet:"<div>{{layui.util.toDateString(d.UpdateTime*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
+            , {field: 'id', width: 80, title: 'ID', align: 'center', sort: true, fixed: 'left'}
+            , {field: 'name', width: 200, title: '字典项名称', align: 'center'}
+            , {field: 'code', width: 150, title: '字典项编码', align: 'center'}
+            , {field: 'sort', width: 80, title: '排序号', align: 'center'}
+            , {field: 'note', width: 200, title: '备注', align: 'center'}
+            , {field: 'create_time', width: 180, title: '添加时间', align: 'center', templet:"<div>{{layui.util.toDateString(d.create_time*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
+            , {field: 'update_time', width: 180, title: '更新时间', align: 'center', templet:"<div>{{layui.util.toDateString(d.update_time*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
             , {title: '操作', toolbar: '#dictDataTbBar', align: 'center', width: 120, minWidth: 120, fixed: 'right'}
         ]]
     });
@@ -178,7 +174,7 @@ layui.use(['layer', 'form', 'table', 'util', 'admin'], function () {
                 return;
             }
             var ids = checkRows.data.map(function (d) {
-                return d.Id;
+                return d.id;
             });
             doDel2({ids: ids});
         }
@@ -195,8 +191,7 @@ layui.use(['layer', 'form', 'table', 'util', 'admin'], function () {
                 form.val('dictDataEditForm', mData);
                 // 表单提交事件
                 form.on('submit(dictDataEditSubmit)', function (data) {
-                    data.field.DictId = selObj.data.Id;
-                    console.log(data.field)
+                    data.field.dictId = selObj.data.id;
                     var loadIndex = layer.load(2);
                     $.post(mData ? '/dictdata/update' : '/dictdata/add', data.field, function (res) {
                         layer.close(loadIndex);
@@ -224,11 +219,11 @@ layui.use(['layer', 'form', 'table', 'util', 'admin'], function () {
             var loadIndex = layer.load(2);
             var ids = []
             if (obj.data) {
-                ids = [obj.data.Id]
+                ids = [obj.data.id]
             } else if (obj.ids) {
                 ids = obj.ids;
             }
-            $.post('/dictdata/delete', {id: ids.join(",")}, function (res) {
+            $.post('/dictdata/delete/' + ids.join(","), {}, function (res) {
                 layer.close(loadIndex);
                 if (0 === res.code) {
                     layer.msg(res.msg, {icon: 1});

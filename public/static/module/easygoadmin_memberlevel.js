@@ -26,11 +26,11 @@ layui.use(['func'], function () {
         //【TABLE列数组】
         var cols = [
             {type: 'checkbox', fixed: 'left'}
-            , {field: 'Id', width: 80, title: 'ID', align: 'center', sort: true, fixed: 'left'}
-            , {field: 'Name', width: 200, title: '分组名称', align: 'center'}
-            , {field: 'Sort', width: 120, title: '排序', align: 'center'}
-            , {field: 'CreateTime', width: 180, title: '添加时间', align: 'center', templet:"<div>{{layui.util.toDateString(d.CreateTime*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
-            , {field: 'UpdateTime', width: 180, title: '更新时间', align: 'center', templet:"<div>{{layui.util.toDateString(d.UpdateTime*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
+            , {field: 'id', width: 80, title: 'ID', align: 'center', sort: true, fixed: 'left'}
+            , {field: 'name', width: 200, title: '分组名称', align: 'center'}
+            , {field: 'sort', width: 120, title: '排序', align: 'center'}
+            , {field: 'create_time', width: 180, title: '添加时间', align: 'center', templet:"<div>{{layui.util.toDateString(d.create_time*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
+            , {field: 'update_time', width: 180, title: '更新时间', align: 'center', templet:"<div>{{layui.util.toDateString(d.update_time*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
             , {fixed: 'right', width: 150, title: '功能操作', align: 'center', toolbar: '#toolBar'}
         ];
 

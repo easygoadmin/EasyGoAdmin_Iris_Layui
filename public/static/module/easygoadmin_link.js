@@ -27,69 +27,75 @@ layui.use(['func'], function () {
         //【TABLE列数组】
         var cols = [
             {type: 'checkbox', fixed: 'left'}
-            , {field: 'Id', width: 80, title: 'ID', align: 'center', sort: true, fixed: 'left'}
-            , {field: 'Name', width: 250, title: '友链名称', align: 'center'}
-            , {field: 'Image', width: 100, title: '友链图片', align: 'center', templet: function (d) {
+            , {field: 'id', width: 80, title: 'ID', align: 'center', sort: true, fixed: 'left'}
+            , {field: 'name', width: 250, title: '友链名称', align: 'center'}
+            , {field: 'image', width: 100, title: '友链图片', align: 'center', templet: function (d) {
+                    if (d.image != "") {
+                        return '<a href="' + d.image + '" target="_blank"><img src="' + d.image + '" height="26" /></a>';
+                    }
+                }
+            }
+            , {field: 'type', width: 100, title: '类型', align: 'center', templet(d) {
+                    var cls = "";
+                    if (d.type == 1) {
+                        // 友情链接
+                        cls = "layui-btn-normal";
+                    } else if (d.type == 2) {
+                        // 合作伙伴
+                        cls = "layui-btn-danger";
+                    }
+                    return '<span class="layui-btn ' + cls + ' layui-btn-xs">' + d.typeName + '</span>';
+                }
+            }
+            , {field: 'url', width: 200, title: '友链地址', align: 'center', templet(d) {
+                    return "<a href='" + d.url + "' target='_blank'>" + d.url + "</a>";
+                }
+            }
+            , {field: 'platform', width: 100, title: '平台', align: 'center', templet(d) {
+                    var cls = "";
+                    if (d.platform == 1) {
+                        // PC站
+                        cls = "layui-btn-normal";
+                    } else if (d.platform == 2) {
+                        // WAP站
+                        cls = "layui-btn-danger";
+                    } else if (d.platform == 3) {
+                        // 微信小程序
+                        cls = "layui-btn-warm";
+                    } else if (d.platform == 4) {
+                        // APP应用
+                        cls = "layui-btn-primary";
+                    }
+                    return '<span class="layui-btn ' + cls + ' layui-btn-xs">' + d.platformName + '</span>';
+                }
+            }
+            , {field: 'form', width: 100, title: '友链形式', align: 'center', templet(d) {
+                    var cls = "";
+                    if (d.form == 1) {
+                        // 文字链接
+                        cls = "layui-btn-normal";
+                    } else if (d.form == 2) {
+                        // 图片链接
+                        cls = "layui-btn-danger";
+                    }
+                    return '<span class="layui-btn ' + cls + ' layui-btn-xs">' + d.formName + '</span>';
+                }
+            }
+            , {field: 'image', width: 100, title: '友链图片', align: 'center', templet: function (d) {
                     var imageStr = "";
-                    if (d.Image) {
-                        imageStr = '<a href="' + d.Image + '" target="_blank"><img src="' + d.Image + '" height="26" /></a>';
+                    if (d.imageUrl) {
+                        imageStr = '<a href="' + d.imageUrl + '" target="_blank"><img src="' + d.imageUrl + '" height="26" /></a>';
                     }
                     return imageStr;
                 }
             }
-            , {field: 'Type', width: 100, title: '类型', align: 'center', templet(d) {
-                    var cls = "";
-                    if (d.Type == 1) {
-                        // 友情链接
-                        cls = "layui-btn-normal";
-                    } else if (d.Type == 2) {
-                        // 合作伙伴
-                        cls = "layui-btn-danger";
-                    }
-                    return '<span class="layui-btn ' + cls + ' layui-btn-xs">' + d.TypeName + '</span>';
+            , {field: 'status', width: 100, title: '状态', align: 'center', templet: function (d) {
+                    return '<input type="checkbox" name="status" value="' + d.id + '" lay-skin="switch" lay-text="正常|禁用" lay-filter="status" ' + (d.status == 1 ? 'checked' : '') + '>';
                 }
             }
-            , {field: 'Url', width: 200, title: '友链地址', align: 'center', templet(d) {
-                    return "<a href='" + d.Url + "' target='_blank'>" + d.Url + "</a>";
-                }
-            }
-            , {field: 'Platform', width: 100, title: '平台', align: 'center', templet(d) {
-                    var cls = "";
-                    if (d.Platform == 1) {
-                        // PC站
-                        cls = "layui-btn-normal";
-                    } else if (d.Platform == 2) {
-                        // WAP站
-                        cls = "layui-btn-danger";
-                    } else if (d.Platform == 3) {
-                        // 微信小程序
-                        cls = "layui-btn-warm";
-                    } else if (d.Platform == 4) {
-                        // APP应用
-                        cls = "layui-btn-primary";
-                    }
-                    return '<span class="layui-btn ' + cls + ' layui-btn-xs">' + d.PlatformName + '</span>';
-                }
-            }
-            , {field: 'Form', width: 100, title: '友链形式', align: 'center', templet(d) {
-                    var cls = "";
-                    if (d.Form == 1) {
-                        // 文字链接
-                        cls = "layui-btn-normal";
-                    } else if (d.Form == 2) {
-                        // 图片链接
-                        cls = "layui-btn-danger";
-                    }
-                    return '<span class="layui-btn ' + cls + ' layui-btn-xs">' + d.FormName + '</span>';
-                }
-            }
-            , {field: 'Status', width: 100, title: '状态', align: 'center', templet: function (d) {
-                    return '<input type="checkbox" name="status" value="' + d.Id + '" lay-skin="switch" lay-text="正常|禁用" lay-filter="status" ' + (d.Status == 1 ? 'checked' : '') + '>';
-                }
-            }
-            , {field: 'Sort', width: 100, title: '显示顺序', align: 'center'}
-            , {field: 'CreateTime', width: 180, title: '添加时间', align: 'center', templet:"<div>{{layui.util.toDateString(d.CreateTime*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
-            , {field: 'UpdateTime', width: 180, title: '更新时间', align: 'center', templet:"<div>{{layui.util.toDateString(d.UpdateTime*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
+            , {field: 'sort', width: 100, title: '显示顺序', align: 'center'}
+            , {field: 'create_time', width: 180, title: '添加时间', align: 'center', templet:"<div>{{layui.util.toDateString(d.create_time*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
+            , {field: 'update_time', width: 180, title: '更新时间', align: 'center', templet:"<div>{{layui.util.toDateString(d.update_time*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
             , {fixed: 'right', width: 150, title: '功能操作', align: 'center', toolbar: '#toolBar'}
         ];
 

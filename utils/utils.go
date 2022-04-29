@@ -1,0 +1,238 @@
+package utils
+
+import (
+	"easygoadmin/utils/cfg"
+	"easygoadmin/utils/common"
+	"easygoadmin/utils/gconv"
+	"easygoadmin/utils/gmd5"
+	"easygoadmin/utils/gstr"
+	"errors"
+	"fmt"
+	"github.com/kataras/iris/v12"
+	"log"
+	"os"
+	"regexp"
+	"strings"
+	"time"
+)
+
+// 调试模式
+func AppDebug() bool {
+	// 获取配置实例
+	config := cfg.Instance()
+	return config.EasyGoAdmin.Debug
+}
+
+// 登录用户ID
+func Uid(ctx iris.Context) int {
+	session := common.Session.Start(ctx)
+	userId := session.GetIntDefault(common.USER_ID, 0)
+	return gconv.Int(userId)
+}
+
+// 判断用户登录状态
+func IsLogin(ctx iris.Context) bool {
+	// 初始化session对象
+	session := common.Session.Start(ctx)
+	// 获取用户ID
+	userId := session.GetIntDefault(common.USER_ID, 0)
+	return userId != 0
+}
+
+// 获取数据库表
+func GetDatabase() (string, error) {
+	config := cfg.Instance()
+	if config == nil {
+		fmt.Printf("参数错误")
+	}
+
+	// 获取数据库连接
+	link := config.Database.Master
+	if link == "" {
+		return "", errors.New("数据库配置读取错误")
+	}
+	// 分裂字符串
+	linkArr := strings.Split(link, "/")
+	return strings.Split(linkArr[1], "?")[0], nil
+}
+
+func Md5(password string) (string, error) {
+	// 第一次MD5加密
+	password, err := gmd5.Encrypt(password)
+	if err != nil {
+		return "", err
+	}
+	// 第二次MD5加密
+	password2, err := gmd5.Encrypt(password)
+	if err != nil {
+		return "", err
+	}
+	return password2, nil
+}
+
+// 数组反转
+func Reverse(arr *[]string) {
+	length := len(*arr)
+	var temp string
+	for i := 0; i < length/2; i++ {
+		temp = (*arr)[i]
+		(*arr)[i] = (*arr)[length-1-i]
+		(*arr)[length-1-i] = temp
+	}
+}
+
+func ImageUrl() string {
+	// 获取配置实例
+	config := cfg.Instance()
+	return config.EasyGoAdmin.Image
+}
+
+// 获取文件地址
+func GetImageUrl(path string) string {
+	return ImageUrl() + path
+}
+
+func InStringArray(value string, array []string) bool {
+	for _, v := range array {
+		if v == value {
+			return true
+		}
+	}
+	return false
+}
+
+// 判断元素是否在数组中
+func InArray(value string, array []interface{}) bool {
+	for _, v := range array {
+		if gconv.String(v) == value {
+			return true
+		}
+	}
+	return false
+}
+
+// 附件目录
+func UploadPath() string {
+
+	// 获取配置实例
+	config := cfg.Instance()
+	// 附件存储路径
+	upload_dir := config.EasyGoAdmin.Uploads
+	if upload_dir != "" {
+		return upload_dir
+	} else {
+		// 获取项目根目录
+		curDir, _ := os.Getwd()
+		return curDir + "/public/uploads"
+	}
+}
+
+// 临时目录
+func TempPath() string {
+	return UploadPath() + "/temp"
+}
+
+// 图片存放目录
+func ImagePath() string {
+	return UploadPath() + "/images"
+}
+
+// 文件目录(非图片目录)
+func FilePath() string {
+	return UploadPath() + "/file"
+}
+
+// 创建文件夹并设置权限
+func CreateDir(path string) bool {
+	// 判断文件夹是否存在
+	if IsExist(path) {
+		return true
+	}
+	// 创建多层级目录
+	err2 := os.MkdirAll(path, os.ModePerm)
+	if err2 != nil {
+		log.Println(err2)
+		return false
+	}
+	return true
+}
+
+// 判断文件/文件夹是否存在(返回true是存在)
+func IsExist(path string) bool {
+	// 读取文件信息，判断文件是否存在
+	_, err := os.Stat(path)
+	if err != nil {
+		log.Println(err)
+		if os.IsExist(err) {
+			// 根据错误类型进行判断
+			return true
+		}
+		return false
+	}
+	return true
+}
+
+func SaveImage(url string, dirname string) (string, error) {
+	// 判断文件地址是否为空
+	if gstr.Equal(url, "") {
+		return "", errors.New("文件地址不能为空")
+	}
+
+	// 判断是否本站图片
+	if gstr.Contains(url, ImageUrl()) {
+		// 本站图片
+
+		// 是否临时图片
+		if gstr.Contains(url, "temp") {
+			// 临时图片
+
+			// 创建目录
+			dirPath := ImagePath() + "/" + dirname + "/" + time.Now().Format("20060102")
+			if !CreateDir(dirPath) {
+				return "", errors.New("文件目录创建失败")
+			}
+			// 原始图片地址
+			oldPath := gstr.Replace(url, ImageUrl(), UploadPath())
+			// 目标目录地址
+			newPath := ImagePath() + "/" + dirname + gstr.Replace(url, ImageUrl()+"/temp", "")
+			// 移动文件
+			os.Rename(oldPath, newPath)
+			return gstr.Replace(newPath, UploadPath(), ""), nil
+		} else {
+			// 非临时图片
+			path := gstr.Replace(url, ImageUrl(), "")
+			return path, nil
+		}
+	} else {
+		// 远程图片
+		// TODO...
+	}
+	return "", errors.New("保存文件异常")
+}
+
+// 处理富文本
+func SaveImageContent(content string, title string, dirname string) string {
+	str := `<img src="(?s:(.*?))"`
+	//解析、编译正则
+	ret := regexp.MustCompile(str)
+	// 提取图片信息
+	alls := ret.FindAllStringSubmatch(content, -1)
+	// 遍历图片数据
+	for _, v := range alls {
+		// 获取图片地址
+		item := v[1]
+		if item == "" {
+			continue
+		}
+		// 保存图片至正式目录
+		image, _ := SaveImage(item, dirname)
+		if image != "" {
+			content = strings.ReplaceAll(content, item, "[IMG_URL]"+image)
+		}
+	}
+	// 设置ALT标题
+	if strings.Contains(content, "alt=\"\"") && title != "" {
+		content = strings.ReplaceAll(content, "alt=\"\"", "alt=\""+title+"\"")
+	}
+	return content
+}

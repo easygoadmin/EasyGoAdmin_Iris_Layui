@@ -25,34 +25,34 @@ layui.use(['func'], function () {
     if (A == 'index') {
         //【TABLE列数组】
         var cols = [
-              {field: 'Id', width: 80, title: 'ID', align: 'center', sort: true}
-            , {field: 'Name', width: 250, title: '部门名称', align: 'left'}
-            , {field: 'Code', width: 100, title: '部门编码', align: 'center'}
-            , {field: 'Fullname', width: 200, title: '部门全称', align: 'center'}
-            , {field: 'Type', width: 100, title: '类型', align: 'center', templet(d) {
-                if (d.Type == 1) {
+              {field: 'id', width: 80, title: 'ID', align: 'center', sort: true}
+            , {field: 'name', width: 250, title: '部门名称', align: 'left'}
+            , {field: 'code', width: 100, title: '部门编码', align: 'center'}
+            , {field: 'fullname', width: 200, title: '部门全称', align: 'center'}
+            , {field: 'type', width: 100, title: '类型', align: 'center', templet(d) {
+                if (d.type == 1) {
                     // 公司
                     return '<span class="layui-btn layui-btn-normal layui-btn-xs">公司</span>';
-                } else if (d.Type == 2) {
+                } else if (d.type == 2) {
                     // 子公司
                     return '<span class="layui-btn layui-btn-warm layui-btn-xs">子公司</span>';
-                } else if (d.Type == 3) {
+                } else if (d.type == 3) {
                     // 部门
                     return '<span class="layui-btn layui-btn-danger layui-btn-xs">部门</span>';
-                } else if (d.Type == 4) {
+                } else if (d.type == 4) {
                     // 小组
                     return '<span class="layui-btn layui-btn-primary layui-btn-xs">小组</span>';
                 }
             }}
-            , {field: 'Note', width: 200, title: '备注', align: 'center'}
-            , {field: 'Sort', width: 80, title: '排序', align: 'center'}
-            , {field: 'CreateTime', width: 180, title: '添加时间', align: 'center', templet:"<div>{{layui.util.toDateString(d.CreateTime*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
-            , {field: 'UpdateTime', width: 180, title: '更新时间', align: 'center', templet:"<div>{{layui.util.toDateString(d.UpdateTime*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
+            , {field: 'note', width: 200, title: '备注', align: 'center'}
+            , {field: 'sort', width: 80, title: '排序', align: 'center'}
+            , {field: 'create_time', width: 180, title: '添加时间', align: 'center', templet:"<div>{{layui.util.toDateString(d.create_time*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
+            , {field: 'update_time', width: 180, title: '更新时间', align: 'center', templet:"<div>{{layui.util.toDateString(d.update_time*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
             , {width: 220, title: '功能操作', align: 'left', toolbar: '#toolBar'}
         ];
 
         //【渲染TABLE】
-        func.treetable(cols, "tableList", true);
+        func.treetable(cols, "tableList");
 
         //【设置弹框】
         func.setWin("部门", 500, 420);

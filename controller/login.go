@@ -2,6 +2,7 @@ package controller
 
 import (
 	"easygoadmin/dto"
+	"easygoadmin/service"
 	"easygoadmin/utils/common"
 	"github.com/gookit/validate"
 	"github.com/kataras/iris/v12"
@@ -34,7 +35,6 @@ func (c *LoginController) Login(ctx iris.Context) {
 			})
 			return
 		}
-
 		// 校验验证码
 		verifyRes := base64Captcha.VerifyCaptcha(req.IdKey, req.Captcha)
 		if !verifyRes {
@@ -44,24 +44,24 @@ func (c *LoginController) Login(ctx iris.Context) {
 			})
 			return
 		}
-
+		// 系统登录
+		err := service.Login.UserLogin(req.UserName, req.Password, ctx)
+		if err != nil {
+			// 登录错误
+			ctx.JSON(common.JsonResult{
+				Code: -1,
+				Msg:  err.Error(),
+			})
+			return
+		}
+		// 登录成功
 		ctx.JSON(common.JsonResult{
-			Code: -1,
-			Msg:  "功能研发中",
+			Code: 0,
+			Msg:  "登录成功",
 		})
 		return
-
-		//// 系统登录
-		//user, err := service.Login.UserLogin(req.UserName, req.Password, ctl.Ctx)
-		//if err != nil {
-		//	// 登录错误
-		//	ctl.JSON(common.JsonResult{
-		//		Code: -1,
-		//		Msg:  err.Error(),
-		//	})
-		//	return
-		//}
 	}
+	// 渲染登录界面
 	ctx.View("login.html")
 }
 

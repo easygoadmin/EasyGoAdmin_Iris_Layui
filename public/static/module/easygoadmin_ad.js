@@ -27,47 +27,47 @@ layui.use(['func'], function () {
         //【TABLE列数组】
         var cols = [
               {type: 'checkbox', fixed: 'left'}
-            , {field: 'Id', width: 80, title: 'ID', align: 'center', sort: true, fixed: 'left'}
-            , {field: 'Title', width: 200, title: '广告标题', align: 'center'}
-            , {field: 'Description', width: 200, title: '广告描述', align: 'center'}
-            , {field: 'Type', width: 100, title: '广告类型', align: 'center', templet(d) {
+            , {field: 'id', width: 80, title: 'ID', align: 'center', sort: true, fixed: 'left'}
+            , {field: 'title', width: 200, title: '广告标题', align: 'center'}
+            , {field: 'description', width: 200, title: '广告描述', align: 'center'}
+            , {field: 'type', width: 100, title: '广告格式', align: 'center', templet(d) {
                     var cls = "";
-                    if (d.Type == 1) {
+                    if (d.type == 1) {
                         // 图片
                         cls = "layui-btn-normal";
-                    } else if (d.Type == 2) {
+                    } else if (d.type == 2) {
                         // 文字
                         cls = "layui-btn-danger";
-                    } else if (d.Type == 3) {
+                    } else if (d.type == 3) {
                         // 视频
                         cls = "layui-btn-warm";
-                    } else if (d.Type == 4) {
+                    } else if (d.type == 4) {
                         // 推荐
                         cls = "layui-btn-primary";
                     }
-                    return '<span class="layui-btn ' + cls + ' layui-btn-xs">'+d.TypeName+'</span>';
+                    return '<span class="layui-btn ' + cls + ' layui-btn-xs">'+d.typeName+'</span>';
                 }}
-            , {field: 'Cover', width: 100, title: '广告图片', align: 'center', templet: function (d) {
+            , {field: 'cover', width: 100, title: '广告图片', align: 'center', templet: function (d) {
                     var cover = "";
-                    if (d.Cover) {
-                        cover = '<a href="' + d.Cover + '" target="_blank"><img src="' + d.Cover + '" height="26" /></a>';
+                    if (d.cover) {
+                        cover = '<a href="' + d.cover + '" target="_blank"><img src="' + d.cover + '" height="26" /></a>';
                     }
                     return cover;
                 }
             }
-            , {field: 'AdSortDesc', width: 200, title: '广告位描述', align: 'center'}
-            , {field: 'Status', width: 100, title: '状态', align: 'center', templet: function (d) {
-                    return  '<input type="checkbox" name="status" value="' + d.Id + '" lay-skin="switch" lay-text="正常|禁用" lay-filter="status" '+(d.Status==1 ? 'checked' : '')+'>';
+            , {field: 'adSortDesc', width: 200, title: '广告位描述', align: 'center'}
+            , {field: 'status', width: 100, title: '状态', align: 'center', templet: function (d) {
+                    return  '<input type="checkbox" name="status" value="' + d.id + '" lay-skin="switch" lay-text="正常|禁用" lay-filter="status" '+(d.status==1 ? 'checked' : '')+'>';
                 }}
-            , {field: 'Size', width: 150, title: '广告尺寸(宽x高)', align: 'center', templet: function (d) {
-                    return d.Width + " x " + d.Width
+            , {field: 'size', width: 150, title: '广告尺寸(宽x高)', align: 'center', templet: function (d) {
+                    return d.width + " x " + d.height
                 }}
-            , {field: 'StartTime', width: 180, title: '开始时间', align: 'center'}
-            , {field: 'EndTime', width: 180, title: '结束时间', align: 'center'}
-            , {field: 'ViewNum', width: 100, title: '点击率', align: 'center'}
-            , {field: 'Sort', width: 100, title: '排序', align: 'center'}
-            , {field: 'CreateTime', width: 180, title: '添加时间', align: 'center', templet:"<div>{{layui.util.toDateString(d.CreateTime*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
-            , {field: 'UpdateTime', width: 180, title: '更新时间', align: 'center', templet:"<div>{{layui.util.toDateString(d.UpdateTime*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
+            , {field: 'startTime', width: 180, title: '开始时间', align: 'center'}
+            , {field: 'endTime', width: 180, title: '结束时间', align: 'center'}
+            , {field: 'viewNum', width: 100, title: '点击率', align: 'center'}
+            , {field: 'sort', width: 100, title: '排序', align: 'center'}
+            , {field: 'create_time', width: 180, title: '添加时间', align: 'center', templet:"<div>{{layui.util.toDateString(d.create_time*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
+            , {field: 'update_time', width: 180, title: '更新时间', align: 'center', templet:"<div>{{layui.util.toDateString(d.update_time*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
             , {fixed: 'right', width: 150, title: '功能操作', align: 'center', toolbar: '#toolBar'}
         ];
 

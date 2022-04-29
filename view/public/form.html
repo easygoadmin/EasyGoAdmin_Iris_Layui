@@ -4,7 +4,7 @@
 {{template "header"}}
 <body class="bg-white">
 <!-- 正文内容 -->
-    {{block "form" .}}{{end}}
+    {{ yield }}
 <!-- 引入脚部 -->
 {{template "footer"}}
 </body>

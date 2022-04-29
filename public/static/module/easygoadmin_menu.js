@@ -28,23 +28,23 @@ layui.use(['func', 'common', 'form', 'transfer'], function () {
     if (A == 'index') {
         //【TABLE列数组】
         var cols = [
-            {field: 'Id', width: 80, title: 'ID', align: 'center', sort: true}
-            , {field: 'Name', width: 200, title: '菜单名称', align: 'left'}
-            , {field: 'Type', width: 80, title: '类型', align: 'center', templet(d) {
-                    if (d.Type == 0) {
+            {field: 'id', width: 80, title: 'ID', align: 'center', sort: true}
+            , {field: 'name', width: 200, title: '菜单名称', align: 'left'}
+            , {field: 'type', width: 80, title: '类型', align: 'center', templet(d) {
+                    if (d.type == 0) {
                         // 菜单
                         return '<span class="layui-btn layui-btn-normal layui-btn-xs">菜单</span>';
-                    } else if (d.Type == 1) {
+                    } else if (d.type == 1) {
                         // 节点
                         return '<span class="layui-btn layui-btn-primary layui-btn-xs">节点</span>';
                     }
                 }
             }
-            , { field: 'Icon', width: 80, title: '图标', align: 'center', templet: '<p><i class="layui-icon {{d.icon}}"></i></p>'}
-            , {field: 'Url', width: 150, title: 'URL地址', align: 'center'}
-            , {field: 'Permission', width: 180, title: '权限标识', align: 'center'}
-            , {field: 'Status', width: 100, title: '状态', align: 'center', templet(d) {
-                    if (d.Status == 1) {
+            , { field: 'icon', width: 80, title: '图标', align: 'center', templet: '<p><i class="layui-icon {{d.icon}}"></i></p>'}
+            , {field: 'url', width: 150, title: 'URL地址', align: 'center'}
+            , {field: 'permission', width: 180, title: '权限标识', align: 'center'}
+            , {field: 'status', width: 100, title: '状态', align: 'center', templet(d) {
+                    if (d.status == 1) {
                         // 在用
                         return '<span class="layui-btn layui-btn-normal layui-btn-xs">在用</span>';
                     } else {
@@ -53,7 +53,7 @@ layui.use(['func', 'common', 'form', 'transfer'], function () {
                     }
                 }
             }
-            , {field: 'Target', width: 100, title: '是否公共', align: 'center', templet(d) {
+            , {field: 'target', width: 100, title: '是否公共', align: 'center', templet(d) {
                     if (d.target == 1) {
                         // 内部打开
                         return '<span class="layui-btn layui-btn-normal layui-btn-xs">内部打开</span>';
@@ -63,7 +63,7 @@ layui.use(['func', 'common', 'form', 'transfer'], function () {
                     }
                 }
             }
-            , {field: 'Sort', width: 90, title: '显示顺序', align: 'center'}
+            , {field: 'sort', width: 90, title: '显示顺序', align: 'center'}
             , {fixed: 'right', width: 220, title: '功能操作', align: 'left', toolbar: '#toolBar'}
         ];
 

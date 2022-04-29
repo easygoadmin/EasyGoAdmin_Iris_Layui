@@ -25,13 +25,13 @@ layui.use(['func'], function () {
     if (A == 'index') {
         //【TABLE列数组】
         var cols = [
-              {field: 'Id', width: 80, title: 'ID', align: 'center', sort: true}
-            , {field: 'Name', width: 200, title: '栏目名称', align: 'left'}
-            , {field: 'ItemName', width: 200, title: '所属站点', align: 'center'}
-            , {field: 'Pinyin', width: 150, title: '拼音(全)', align: 'center'}
-            , {field: 'Code', width: 100, title: '拼音(简)', align: 'center'}
-            , {field: 'IsCover', width: 100, title: '有无封面', align: 'center', templet(d) {
-                    if (d.IsCover == 1) {
+              {field: 'id', width: 80, title: 'ID', align: 'center', sort: true}
+            , {field: 'name', width: 200, title: '栏目名称', align: 'left'}
+            , {field: 'itemName', width: 200, title: '所属站点', align: 'center'}
+            , {field: 'pinyin', width: 150, title: '拼音(全)', align: 'center'}
+            , {field: 'code', width: 100, title: '拼音(简)', align: 'center'}
+            , {field: 'is_cover', width: 100, title: '有无封面', align: 'center', templet(d) {
+                    if (d.is_cover == 1) {
                         // 有封面
                         return '<span class="layui-btn layui-btn-normal layui-btn-xs">有封面</span>';
                     } else {
@@ -39,8 +39,8 @@ layui.use(['func'], function () {
                         return '<span class="layui-btn layui-btn-danger layui-btn-xs">有封面</span>';
                     }
                 }}
-            , {field: 'Status', width: 100, title: '状态', align: 'center', templet(d) {
-                if (d.Status == 1) {
+            , {field: 'status', width: 100, title: '状态', align: 'center', templet(d) {
+                if (d.status == 1) {
                     // 在用
                     return '<span class="layui-btn layui-btn-normal layui-btn-xs">在用</span>';
                 } else {
@@ -48,10 +48,10 @@ layui.use(['func'], function () {
                     return '<span class="layui-btn layui-btn-danger layui-btn-xs">停用</span>';
                 }
             }}
-            , {field: 'Sort', width: 100, title: '排序号', align: 'center'}
-            , {field: 'Note', width: 200, title: '备注', align: 'center'}
-            , {field: 'CreateTime', width: 180, title: '添加时间', align: 'center', templet:"<div>{{layui.util.toDateString(d.CreateTime*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
-            , {field: 'UpdateTime', width: 180, title: '更新时间', align: 'center', templet:"<div>{{layui.util.toDateString(d.UpdateTime*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
+            , {field: 'sort', width: 100, title: '排序号', align: 'center'}
+            , {field: 'note', width: 200, title: '备注', align: 'center'}
+            , {field: 'create_time', width: 180, title: '添加时间', align: 'center', templet:"<div>{{layui.util.toDateString(d.create_time*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
+            , {field: 'update_time', width: 180, title: '更新时间', align: 'center', templet:"<div>{{layui.util.toDateString(d.update_time*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
             , {width: 220, title: '功能操作', align: 'left', toolbar: '#toolBar'}
         ];
 
