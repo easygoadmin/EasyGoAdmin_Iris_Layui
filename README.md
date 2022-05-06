@@ -30,7 +30,7 @@
 + 案例演示：常规代码生成器一键生成后的演示案例。
 
 ## 👷 软件信息
-* 系统名称：EasyGoAdmin敏捷开发框架Iris+Layui版本
+* 软件名称：EasyGoAdmin敏捷开发框架Iris+Layui版本
 * 软件作者：@半城风雨
 * 软件出处：深圳EasyGoAdmin研发中心
 * 软件协议：LGPL-3.0
