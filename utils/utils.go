@@ -1,14 +1,37 @@
+// +----------------------------------------------------------------------
+// | EasyGoAdmin敏捷开发框架 [ 赋能开发者，助力企业发展 ]
+// +----------------------------------------------------------------------
+// | 版权所有 2019~2022 深圳EasyGoAdmin研发中心
+// +----------------------------------------------------------------------
+// | Licensed LGPL-3.0 EasyGoAdmin并不是自由软件，未经许可禁止去掉相关版权
+// +----------------------------------------------------------------------
+// | 官方网站: http://www.easygoadmin.vip
+// +----------------------------------------------------------------------
+// | Author: @半城风雨 团队荣誉出品
+// +----------------------------------------------------------------------
+// | 版权和免责声明:
+// | 本团队对该软件框架产品拥有知识产权（包括但不限于商标权、专利权、著作权、商业秘密等）
+// | 均受到相关法律法规的保护，任何个人、组织和单位不得在未经本团队书面授权的情况下对所授权
+// | 软件框架产品本身申请相关的知识产权，禁止用于任何违法、侵害他人合法权益等恶意的行为，禁
+// | 止用于任何违反我国法律法规的一切项目研发，任何个人、组织和单位用于项目研发而产生的任何
+// | 意外、疏忽、合约毁坏、诽谤、版权或知识产权侵犯及其造成的损失 (包括但不限于直接、间接、
+// | 附带或衍生的损失等)，本团队不承担任何法律责任，本软件框架禁止任何单位和个人、组织用于
+// | 任何违法、侵害他人合法利益等恶意的行为，如有发现违规、违法的犯罪行为，本团队将无条件配
+// | 合公安机关调查取证同时保留一切以法律手段起诉的权利，本软件框架只能用于公司和个人内部的
+// | 法律所允许的合法合规的软件产品研发，详细声明内容请阅读《框架免责声明》附件；
+// +----------------------------------------------------------------------
+
 package utils
 
 import (
-	"easygoadmin/utils/cfg"
-	"easygoadmin/utils/common"
+	"easygoadmin/conf"
 	"easygoadmin/utils/gconv"
 	"easygoadmin/utils/gmd5"
 	"easygoadmin/utils/gstr"
 	"errors"
 	"fmt"
 	"github.com/kataras/iris/v12"
+	"github.com/kataras/iris/v12/sessions"
 	"log"
 	"os"
 	"regexp"
@@ -19,41 +42,42 @@ import (
 // 调试模式
 func AppDebug() bool {
 	// 获取配置实例
-	config := cfg.Instance()
-	return config.EasyGoAdmin.Debug
+	return conf.CONFIG.EGAdmin.Debug
 }
 
 // 登录用户ID
 func Uid(ctx iris.Context) int {
-	session := common.Session.Start(ctx)
-	userId := session.GetIntDefault(common.USER_ID, 0)
-	return gconv.Int(userId)
+	fmt.Println("全局获取用户ID")
+	//sessValues := sessions.Get(ctx).GetAll()
+	//fmt.Println(len(sessValues))
+	//for k, v := range sessValues {
+	//	fmt.Println(k, v)
+	//}
+	userId := sessions.Get(ctx).GetIntDefault(conf.USER_ID, 0)
+	return userId
 }
 
 // 判断用户登录状态
 func IsLogin(ctx iris.Context) bool {
 	// 初始化session对象
-	session := common.Session.Start(ctx)
-	// 获取用户ID
-	userId := session.GetIntDefault(common.USER_ID, 0)
-	return userId != 0
+	fmt.Println("初始化SESSION")
+	userId := Uid(ctx)
+	return userId > 0
 }
 
-// 获取数据库表
-func GetDatabase() (string, error) {
-	config := cfg.Instance()
-	if config == nil {
-		fmt.Printf("参数错误")
+// 判断元素是否在数组中
+func InArray(value string, array []interface{}) bool {
+	for _, v := range array {
+		if gconv.String(v) == value {
+			return true
+		}
 	}
+	return false
+}
 
-	// 获取数据库连接
-	link := config.Database.Master
-	if link == "" {
-		return "", errors.New("数据库配置读取错误")
-	}
-	// 分裂字符串
-	linkArr := strings.Split(link, "/")
-	return strings.Split(linkArr[1], "?")[0], nil
+// 获取文件地址
+func GetImageUrl(path string) string {
+	return conf.CONFIG.EGAdmin.Image + path
 }
 
 func Md5(password string) (string, error) {
@@ -70,106 +94,9 @@ func Md5(password string) (string, error) {
 	return password2, nil
 }
 
-// 数组反转
-func Reverse(arr *[]string) {
-	length := len(*arr)
-	var temp string
-	for i := 0; i < length/2; i++ {
-		temp = (*arr)[i]
-		(*arr)[i] = (*arr)[length-1-i]
-		(*arr)[length-1-i] = temp
-	}
-}
-
-func ImageUrl() string {
-	// 获取配置实例
-	config := cfg.Instance()
-	return config.EasyGoAdmin.Image
-}
-
-// 获取文件地址
-func GetImageUrl(path string) string {
-	return ImageUrl() + path
-}
-
-func InStringArray(value string, array []string) bool {
-	for _, v := range array {
-		if v == value {
-			return true
-		}
-	}
-	return false
-}
-
-// 判断元素是否在数组中
-func InArray(value string, array []interface{}) bool {
-	for _, v := range array {
-		if gconv.String(v) == value {
-			return true
-		}
-	}
-	return false
-}
-
-// 附件目录
-func UploadPath() string {
-
-	// 获取配置实例
-	config := cfg.Instance()
-	// 附件存储路径
-	upload_dir := config.EasyGoAdmin.Uploads
-	if upload_dir != "" {
-		return upload_dir
-	} else {
-		// 获取项目根目录
-		curDir, _ := os.Getwd()
-		return curDir + "/public/uploads"
-	}
-}
-
-// 临时目录
-func TempPath() string {
-	return UploadPath() + "/temp"
-}
-
 // 图片存放目录
 func ImagePath() string {
-	return UploadPath() + "/images"
-}
-
-// 文件目录(非图片目录)
-func FilePath() string {
-	return UploadPath() + "/file"
-}
-
-// 创建文件夹并设置权限
-func CreateDir(path string) bool {
-	// 判断文件夹是否存在
-	if IsExist(path) {
-		return true
-	}
-	// 创建多层级目录
-	err2 := os.MkdirAll(path, os.ModePerm)
-	if err2 != nil {
-		log.Println(err2)
-		return false
-	}
-	return true
-}
-
-// 判断文件/文件夹是否存在(返回true是存在)
-func IsExist(path string) bool {
-	// 读取文件信息，判断文件是否存在
-	_, err := os.Stat(path)
-	if err != nil {
-		log.Println(err)
-		if os.IsExist(err) {
-			// 根据错误类型进行判断
-			return true
-		}
-		return false
-	}
-	return true
+	return conf.CONFIG.Attachment.FilePath + "/images"
 }
 
 func SaveImage(url string, dirname string) (string, error) {
@@ -179,7 +106,7 @@ func SaveImage(url string, dirname string) (string, error) {
 	}
 
 	// 判断是否本站图片
-	if gstr.Contains(url, ImageUrl()) {
+	if gstr.Contains(url, conf.CONFIG.EGAdmin.Image) {
 		// 本站图片
 
 		// 是否临时图片
@@ -192,15 +119,15 @@ func SaveImage(url string, dirname string) (string, error) {
 				return "", errors.New("文件目录创建失败")
 			}
 			// 原始图片地址
-			oldPath := gstr.Replace(url, ImageUrl(), UploadPath())
+			oldPath := gstr.Replace(url, conf.CONFIG.EGAdmin.Image, conf.CONFIG.Attachment.FilePath)
 			// 目标目录地址
-			newPath := ImagePath() + "/" + dirname + gstr.Replace(url, ImageUrl()+"/temp", "")
+			newPath := ImagePath() + "/" + dirname + gstr.Replace(url, conf.CONFIG.EGAdmin.Image+"/temp", "")
 			// 移动文件
 			os.Rename(oldPath, newPath)
-			return gstr.Replace(newPath, UploadPath(), ""), nil
+			return gstr.Replace(newPath, conf.CONFIG.Attachment.FilePath, ""), nil
 		} else {
 			// 非临时图片
-			path := gstr.Replace(url, ImageUrl(), "")
+			path := gstr.Replace(url, conf.CONFIG.EGAdmin.Image, "")
 			return path, nil
 		}
 	} else {
@@ -235,4 +162,54 @@ func SaveImageContent(content string, title string, dirname string) string {
 		content = strings.ReplaceAll(content, "alt=\"\"", "alt=\""+title+"\"")
 	}
 	return content
+}
+
+// 创建文件夹并设置权限
+func CreateDir(path string) bool {
+	// 判断文件夹是否存在
+	if IsExist(path) {
+		return true
+	}
+	// 创建多层级目录
+	err2 := os.MkdirAll(path, os.ModePerm)
+	if err2 != nil {
+		log.Println(err2)
+		return false
+	}
+	return true
+}
+
+// 判断文件/文件夹是否存在(返回true是存在)
+func IsExist(path string) bool {
+	// 读取文件信息，判断文件是否存在
+	_, err := os.Stat(path)
+	if err != nil {
+		log.Println(err)
+		if os.IsExist(err) {
+			// 根据错误类型进行判断
+			return true
+		}
+		return false
+	}
+	return true
+}
+
+// 数组反转
+func Reverse(arr *[]string) {
+	length := len(*arr)
+	var temp string
+	for i := 0; i < length/2; i++ {
+		temp = (*arr)[i]
+		(*arr)[i] = (*arr)[length-1-i]
+		(*arr)[length-1-i] = temp
+	}
+}
+
+func InStringArray(value string, array []string) bool {
+	for _, v := range array {
+		if v == value {
+			return true
+		}
+	}
+	return false
 }

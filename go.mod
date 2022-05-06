@@ -3,7 +3,6 @@ module easygoadmin
 go 1.16
 
 require (
-	github.com/BurntSushi/toml v0.3.1
 	github.com/ajg/form v1.5.1 // indirect
 	github.com/fsnotify/fsnotify v1.5.1
 	github.com/go-sql-driver/mysql v1.4.1

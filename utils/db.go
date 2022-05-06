@@ -1,4 +1,14 @@
 // +----------------------------------------------------------------------
+// | EasyGoAdmin敏捷开发框架 [ 赋能开发者，助力企业发展 ]
+// +----------------------------------------------------------------------
+// | 版权所有 2019~2022 深圳EasyGoAdmin研发中心
+// +----------------------------------------------------------------------
+// | Licensed LGPL-3.0 EasyGoAdmin并不是自由软件，未经许可禁止去掉相关版权
+// +----------------------------------------------------------------------
+// | 官方网站: http://www.easygoadmin.vip
+// +----------------------------------------------------------------------
+// | Author: @半城风雨 团队荣誉出品
+// +----------------------------------------------------------------------
 // | 版权和免责声明:
 // | 本团队对该软件框架产品拥有知识产权（包括但不限于商标权、专利权、著作权、商业秘密等）
 // | 均受到相关法律法规的保护，任何个人、组织和单位不得在未经本团队书面授权的情况下对所授权
@@ -20,7 +30,7 @@
 package utils
 
 import (
-	"easygoadmin/utils/cfg"
+	"easygoadmin/conf"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/xorm"
@@ -34,9 +44,9 @@ func init() {
 	fmt.Println("初始化并连接数据库")
 
 	// 获取配置实例
-	config := cfg.Instance()
 	var err error
-	XormDb, err = xorm.NewEngine("mysql", config.Database.Master)
+	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=%s&timeout=3s&parseTime=true", conf.CONFIG.Mysql.Username, conf.CONFIG.Mysql.Password, conf.CONFIG.Mysql.Host, conf.CONFIG.Mysql.Port, conf.CONFIG.Mysql.Database, conf.CONFIG.Mysql.Charset)
+	XormDb, err = xorm.NewEngine("mysql", dataSourceName)
 	if err != nil {
 		fmt.Printf("数据库连接错误:%v", err.Error())
 		return
@@ -65,8 +75,8 @@ func init() {
 	XormDb.SetTableMapper(tbMapper)
 
 	// 开启调试模式和打印日志,会在控制台打印执行的sql
-	if cfg.Instance().Database.Debug {
-		XormDb.ShowSQL(cfg.Instance().Database.Debug)
+	if conf.CONFIG.Mysql.Debug {
+		XormDb.ShowSQL(conf.CONFIG.Mysql.Debug)
 		XormDb.Logger().SetLevel(core.LOG_DEBUG)
 	}
 }

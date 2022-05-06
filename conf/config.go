@@ -1,4 +1,14 @@
 // +----------------------------------------------------------------------
+// | EasyGoAdmin敏捷开发框架 [ 赋能开发者，助力企业发展 ]
+// +----------------------------------------------------------------------
+// | 版权所有 2019~2022 深圳EasyGoAdmin研发中心
+// +----------------------------------------------------------------------
+// | Licensed LGPL-3.0 EasyGoAdmin并不是自由软件，未经许可禁止去掉相关版权
+// +----------------------------------------------------------------------
+// | 官方网站: http://www.easygoadmin.vip
+// +----------------------------------------------------------------------
+// | Author: @半城风雨 团队荣誉出品
+// +----------------------------------------------------------------------
 // | 版权和免责声明:
 // | 本团队对该软件框架产品拥有知识产权（包括但不限于商标权、专利权、著作权、商业秘密等）
 // | 均受到相关法律法规的保护，任何个人、组织和单位不得在未经本团队书面授权的情况下对所授权
@@ -15,9 +25,17 @@ package conf
 
 import "easygoadmin/conf/config"
 
+const (
+	// ConfigEnv 配置环境
+	ConfigEnv = "CONFIG"
+	// ConfigFile 配置文件
+	ConfigFile = "conf/config.yaml"
+)
+
 // 全局配置结构体
 type Config struct {
 	Mysql      config.MySQL      `mapstructure:"mysql" json:"mysql" yaml:"mysql"`
+	Redis      config.Redis      `mapstructure:"Redis" json:"Redis" yaml:"Redis"`
 	Attachment config.Attachment `mapstructure:"attachment" json:"attachment" yaml:"attachment"`
 	EGAdmin    config.EGAdmin    `mapstructure:"easygoadmin" json:"easygoadmin" yaml:"easygoadmin"`
 }

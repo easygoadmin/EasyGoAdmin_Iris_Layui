@@ -1,4 +1,14 @@
 // +----------------------------------------------------------------------
+// | EasyGoAdmin敏捷开发框架 [ 赋能开发者，助力企业发展 ]
+// +----------------------------------------------------------------------
+// | 版权所有 2019~2022 深圳EasyGoAdmin研发中心
+// +----------------------------------------------------------------------
+// | Licensed LGPL-3.0 EasyGoAdmin并不是自由软件，未经许可禁止去掉相关版权
+// +----------------------------------------------------------------------
+// | 官方网站: http://www.easygoadmin.vip
+// +----------------------------------------------------------------------
+// | Author: @半城风雨 团队荣誉出品
+// +----------------------------------------------------------------------
 // | 版权和免责声明:
 // | 本团队对该软件框架产品拥有知识产权（包括但不限于商标权、专利权、著作权、商业秘密等）
 // | 均受到相关法律法规的保护，任何个人、组织和单位不得在未经本团队书面授权的情况下对所授权
@@ -15,9 +25,16 @@ package config
 
 // 数据库结构体
 type MySQL struct {
-	Host     string `mapstructure:"host" json:"host" yaml:"host"`
-	Port     int    `mapstructure:"port" json:"port" yaml:"port"`
-	Database string `mapstructure:"database" json:"database" yaml:"database"`
-	Username string `mapstructure:"username" json:"username" yaml:"username"`
-	Password string `mapstructure:"password" json:"password" yaml:"password"`
+	Host         string `mapstructure:"host" json:"host" yaml:"host"`
+	Port         int    `mapstructure:"port" json:"port" yaml:"port"`
+	Database     string `mapstructure:"database" json:"database" yaml:"database"`
+	Username     string `mapstructure:"username" json:"username" yaml:"username"`
+	Password     string `mapstructure:"password" json:"password" yaml:"password"`
+	Charset      string `mapstructure:"charset" json:"charset" yaml:"charset"`
+	Debug        bool   `mapstructure:"debug" json:"debug" yaml:"debug"`
+	LogLevel     string `mapstructure:"logLevel" json:"logLevel" yaml:"logLevel"`
+	MaxOpenConns string `mapstructure:"maxOpenConns" json:"maxOpenConns" yaml:"maxOpenConns"`
+	MaxIdleConns string `mapstructure:"maxIdleConns" json:"maxIdleConns" yaml:"maxIdleConns"`
+	Timeout      string `mapstructure:"timeout" json:"timeout" yaml:"timeout"`
+	ParseTime    bool   `mapstructure:"parseTime" json:"parseTime" yaml:"parseTime"`
 }

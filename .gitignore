@@ -28,5 +28,5 @@ package.json
 package-lock.json
 webpack.config.js
 .svn
-app/services/generate.go
+app/service/generate.go
 go_build_main_go.exe
