@@ -30,8 +30,10 @@ import (
 	"easygoadmin/app/service"
 	"easygoadmin/utils"
 	"easygoadmin/utils/common"
+	"easygoadmin/utils/gconv"
 	"github.com/gookit/validate"
 	"github.com/kataras/iris/v12"
+	"strings"
 )
 
 var Menu = new(MenuController)
@@ -104,11 +106,15 @@ func (c *MenuController) Edit(ctx iris.Context) {
 		ctx.ViewData("funcList", sortList)
 	} else {
 		// 添加
-		pid := ctx.Params().GetIntDefault("pid", 0)
 		var info model.Menu
-		info.Pid = pid
 		info.Status = 1
 		info.Target = 1
+		// 添加
+		param := ctx.Params().GetStringDefault("pid", "")
+		if param != "" {
+			item := strings.Split(param, "=")
+			info.Pid = gconv.Int(item[1])
+		}
 		ctx.ViewData("info", info)
 		ctx.ViewData("funcList", make([]interface{}, 0))
 	}

@@ -24,7 +24,7 @@
 package controller
 
 import (
-	model2 "easygoadmin/app/model"
+	"easygoadmin/app/model"
 	"easygoadmin/conf"
 	"easygoadmin/utils"
 	"easygoadmin/utils/common"
@@ -106,14 +106,14 @@ func (c *ConfigWebController) Index(ctx iris.Context) {
 				// TODO...
 			}
 
-			var info model2.ConfigData
+			var info model.ConfigData
 			has, err := utils.XormDb.Where("code=?", key).Get(&info)
 			if err != nil || !has {
 				continue
 			}
 
 			// 更新记录
-			entity := &model2.ConfigData{Id: info.Id}
+			entity := &model.ConfigData{Id: info.Id}
 			entity.Value = gconv.String(val)
 			entity.UpdateUser = utils.Uid(ctx)
 			entity.UpdateTime = time.Now().Unix()
@@ -134,7 +134,7 @@ func (c *ConfigWebController) Index(ctx iris.Context) {
 	}
 
 	// 获取配置列表
-	configData := make([]model2.Config, 0)
+	configData := make([]model.Config, 0)
 	utils.XormDb.Where("mark=1").Find(&configData)
 	configList := make(map[string]string)
 	for _, v := range configData {
@@ -142,7 +142,7 @@ func (c *ConfigWebController) Index(ctx iris.Context) {
 	}
 
 	// 获取配置项列表
-	itemData := make([]model2.ConfigData, 0)
+	itemData := make([]model.ConfigData, 0)
 	utils.XormDb.Where("config_id=? and status=1 and mark=1", configId).OrderBy("sort asc").Find(&itemData)
 	itemList := make([]map[string]interface{}, 0)
 	for _, v := range itemData {

@@ -34,6 +34,7 @@ type DictPageReq struct {
 
 // 添加字典
 type DictAddReq struct {
+	Id   int    `form:"Id"`                       // 主键ID
 	Name string `form:"Name" validate:"required"` // 字典名称
 	Code string `form:"Code" validate:"required"` // 字典值
 	Sort int    `form:"Sort" validate:"int"`      // 显示顺序

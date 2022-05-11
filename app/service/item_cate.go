@@ -25,7 +25,7 @@ package service
 
 import (
 	"easygoadmin/app/dto"
-	model2 "easygoadmin/app/model"
+	"easygoadmin/app/model"
 	"easygoadmin/app/vo"
 	"easygoadmin/utils"
 	"easygoadmin/utils/gconv"
@@ -50,7 +50,7 @@ func (s *itemCateService) GetList(req dto.ItemCateQueryReq) []vo.ItemCateInfoVo 
 	// 排序
 	query = query.OrderBy("sort asc")
 	// 对象转换
-	var list []model2.ItemCate
+	var list []model.ItemCate
 	query.Find(&list)
 
 	// 数据处理
@@ -64,7 +64,7 @@ func (s *itemCateService) GetList(req dto.ItemCateQueryReq) []vo.ItemCateInfoVo 
 		}
 		// 获取栏目
 		if v.ItemId > 0 {
-			var itemInfo model2.Item
+			var itemInfo model.Item
 			utils.XormDb.Id(item.Id).Get(&itemInfo)
 			item.ItemName = itemInfo.Name
 		}
@@ -79,7 +79,7 @@ func (s *itemCateService) Add(req dto.ItemCateAddReq, userId int) (int64, error)
 		return 0, errors.New("演示环境，暂无权限操作")
 	}
 	// 实例化对象
-	var entity model2.ItemCate
+	var entity model.ItemCate
 	entity.Name = req.Name
 	entity.Pid = req.Pid
 	entity.ItemId = req.ItemId
@@ -117,7 +117,7 @@ func (s *itemCateService) Update(req dto.ItemCateUpdateReq, userId int) (int64, 
 		return 0, errors.New("演示环境，暂无权限操作")
 	}
 	// 查询记录
-	entity := &model2.ItemCate{Id: req.Id}
+	entity := &model.ItemCate{Id: req.Id}
 	has, err := entity.Get()
 	if err != nil || !has {
 		return 0, err
@@ -161,7 +161,7 @@ func (s *itemCateService) Delete(ids string) (int64, error) {
 	idsArr := strings.Split(ids, ",")
 	if len(idsArr) == 1 {
 		// 单个删除
-		entity := &model2.ItemCate{Id: gconv.Int(ids)}
+		entity := &model.ItemCate{Id: gconv.Int(ids)}
 		rows, err := entity.Delete()
 		if err != nil || rows == 0 {
 			return 0, errors.New("删除失败")
@@ -172,7 +172,7 @@ func (s *itemCateService) Delete(ids string) (int64, error) {
 		count := 0
 		for _, v := range idsArr {
 			id, _ := strconv.Atoi(v)
-			entity := &model2.ItemCate{Id: id}
+			entity := &model.ItemCate{Id: id}
 			rows, err := entity.Delete()
 			if rows == 0 || err != nil {
 				continue
@@ -192,7 +192,7 @@ func (s *itemCateService) GetCateName(cateId int, delimiter string) string {
 			break
 		}
 		// 业务处理
-		var info model2.ItemCate
+		var info model.ItemCate
 		has, err := utils.XormDb.Id(cateId).Get(&info)
 		if err != nil || !has {
 			break
@@ -226,7 +226,7 @@ func (s *itemCateService) GetCateTreeList(itemId int, pid int) ([]*vo.CateTreeNo
 	// 排序
 	query = query.OrderBy("sort asc")
 	// 查询所有
-	data := make([]model2.ItemCate, 0)
+	data := make([]model.ItemCate, 0)
 	err := query.Find(&data)
 	if err != nil {
 		return nil, errors.New("系统错误")
@@ -236,7 +236,7 @@ func (s *itemCateService) GetCateTreeList(itemId int, pid int) ([]*vo.CateTreeNo
 }
 
 //递归生成分类列表
-func makeCateTree(cate []model2.ItemCate, tn *vo.CateTreeNode) {
+func makeCateTree(cate []model.ItemCate, tn *vo.CateTreeNode) {
 	for _, c := range cate {
 		if c.Pid == tn.Id {
 			child := &vo.CateTreeNode{}

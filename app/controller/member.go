@@ -26,7 +26,7 @@ package controller
 import (
 	"easygoadmin/app/constant"
 	"easygoadmin/app/dto"
-	model2 "easygoadmin/app/model"
+	"easygoadmin/app/model"
 	"easygoadmin/app/service"
 	"easygoadmin/utils"
 	"easygoadmin/utils/common"
@@ -76,7 +76,7 @@ func (c *MemberController) List(ctx iris.Context) {
 
 func (c *MemberController) Edit(ctx iris.Context) {
 	// 会员等级
-	list := make([]model2.MemberLevel, 0)
+	list := make([]model.MemberLevel, 0)
 	utils.XormDb.Where("mark=1").Find(&list)
 	memberLevelList := make(map[int]string, 0)
 	for _, v := range list {
@@ -85,7 +85,7 @@ func (c *MemberController) Edit(ctx iris.Context) {
 	// 查询记录
 	id := ctx.Params().GetIntDefault("id", 0)
 	if id > 0 {
-		info := &model2.Member{Id: id}
+		info := &model.Member{Id: id}
 		has, err := info.Get()
 		if !has || err != nil {
 			ctx.JSON(common.JsonResult{

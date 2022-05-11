@@ -35,6 +35,7 @@ type UserPageReq struct {
 
 // 添加用户
 type UserAddReq struct {
+	Id           int    `form:"id"`
 	Realname     string `form:"realname" validate:"required"`
 	Nickname     string `form:"nickname" validate:"required"`
 	Gender       int    `form:"gender" validate:"int"`

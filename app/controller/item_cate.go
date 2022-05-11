@@ -25,12 +25,14 @@ package controller
 
 import (
 	"easygoadmin/app/dto"
-	model2 "easygoadmin/app/model"
+	"easygoadmin/app/model"
 	"easygoadmin/app/service"
 	"easygoadmin/utils"
 	"easygoadmin/utils/common"
+	"easygoadmin/utils/gconv"
 	"github.com/gookit/validate"
 	"github.com/kataras/iris/v12"
+	"strings"
 )
 
 var ItemCate = new(ItemCateController)
@@ -67,7 +69,7 @@ func (c *ItemCateController) List(ctx iris.Context) {
 
 func (c *ItemCateController) Edit(ctx iris.Context) {
 	// 站点列表
-	result := make([]model2.Item, 0)
+	result := make([]model.Item, 0)
 	utils.XormDb.Where("mark=1").Find(&result)
 	var itemList = map[int]string{}
 	for _, v := range result {
@@ -76,7 +78,7 @@ func (c *ItemCateController) Edit(ctx iris.Context) {
 	// 查询记录
 	id := ctx.Params().GetIntDefault("id", 0)
 	if id > 0 {
-		info := &model2.ItemCate{Id: id}
+		info := &model.ItemCate{Id: id}
 		has, err := info.Get()
 		if !has || err != nil {
 			ctx.JSON(common.JsonResult{
@@ -91,6 +93,19 @@ func (c *ItemCateController) Edit(ctx iris.Context) {
 		}
 		// 数据绑定
 		ctx.ViewData("info", info)
+	} else {
+		// 添加
+		param := ctx.Params().GetStringDefault("pid", "")
+		if param != "" {
+			item := strings.Split(param, "=")
+			info := &model.ItemCate{Pid: gconv.Int(item[1])}
+			// 数据绑定
+			ctx.ViewData("info", info)
+		} else {
+			info := &model.ItemCate{}
+			// 数据绑定
+			ctx.ViewData("info", info)
+		}
 	}
 	// 绑定参数
 	ctx.ViewData("itemList", itemList)
@@ -199,7 +214,7 @@ func (c *ItemCateController) Delete(ctx iris.Context) {
 }
 
 func (c *ItemCateController) GetCateList(ctx iris.Context) {
-	list := make([]model2.ItemCate, 0)
+	list := make([]model.ItemCate, 0)
 	utils.XormDb.Where("status=1 and mark=1").OrderBy("sort asc").Find(&list)
 	// 返回结果
 	ctx.JSON(common.JsonResult{

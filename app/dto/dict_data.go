@@ -35,6 +35,7 @@ type DictDataPageReq struct {
 
 // 添加字典项
 type DictDataAddReq struct {
+	Id     int    `form:"Id"`
 	Name   string `form:"Name,unique" validate:"required"` // 字典项名称
 	Code   string `form:"Code" validate:"required"`        // 字典项值
 	DictId int    `form:"DictId" validate:"int"`           // 字典类型ID

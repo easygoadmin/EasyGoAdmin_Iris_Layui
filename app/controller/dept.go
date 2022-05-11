@@ -30,8 +30,10 @@ import (
 	"easygoadmin/app/service"
 	"easygoadmin/utils"
 	"easygoadmin/utils/common"
+	"easygoadmin/utils/gconv"
 	"github.com/gookit/validate"
 	"github.com/kataras/iris/v12"
+	"strings"
 )
 
 var Dept = new(DeptController)
@@ -88,6 +90,15 @@ func (c *DeptController) Edit(ctx iris.Context) {
 		}
 		// 数据绑定
 		ctx.ViewData("info", info)
+	} else {
+		// 添加
+		param := ctx.Params().GetStringDefault("pid", "")
+		if param != "" {
+			item := strings.Split(param, "=")
+			info := &model.Dept{Pid: gconv.Int(item[1])}
+			// 数据绑定
+			ctx.ViewData("info", info)
+		}
 	}
 	// 绑定常量
 	ctx.ViewData("typeList", constant.DEPT_TYPE_LIST)

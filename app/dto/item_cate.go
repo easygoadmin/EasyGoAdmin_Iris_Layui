@@ -34,6 +34,7 @@ type ItemCateQueryReq struct {
 
 // 添加栏目
 type ItemCateAddReq struct {
+	Id      int    `form:"id"`
 	Name    string `form:"name" validate:"required"`   // 栏目名称
 	Pid     int    `form:"pid" validate:"int"`         // 父级ID
 	ItemId  int    `form:"itemId" validate:"int"`      // 栏目ID

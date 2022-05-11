@@ -25,7 +25,7 @@ package service
 
 import (
 	"easygoadmin/app/dto"
-	model2 "easygoadmin/app/model"
+	"easygoadmin/app/model"
 	"easygoadmin/app/vo"
 	"easygoadmin/utils"
 	"easygoadmin/utils/gconv"
@@ -39,13 +39,13 @@ type roleMenuService struct{}
 
 func (s *roleMenuService) GetRoleMenuList(roleId int) ([]vo.RoleMenuInfo, error) {
 	// 获取全部菜单列表
-	var menuList []model2.Menu
+	var menuList []model.Menu
 	utils.XormDb.Where("status=1").Where("mark=1").OrderBy("sort asc").Find(&menuList)
 	if len(menuList) == 0 {
 		return nil, errors.New("菜单列表不存在")
 	}
 	// 获取角色菜单权限列表
-	var roleMenuList []model2.RoleMenu
+	var roleMenuList []model.RoleMenu
 	utils.XormDb.Where("role_id=?", roleId).Find(&roleMenuList)
 	idList := make([]interface{}, 0)
 	for _, v := range roleMenuList {
@@ -84,10 +84,10 @@ func (s *roleMenuService) Save(req dto.RoleMenuSaveReq) error {
 		return errors.New("请选择权限节点")
 	}
 	// 删除现有的角色权限数据
-	utils.XormDb.Where("role_id=?", req.RoleId).Delete(&model2.RoleMenu{})
+	utils.XormDb.Where("role_id=?", req.RoleId).Delete(&model.RoleMenu{})
 	// 遍历创建新角色权限数据
 	for _, v := range itemArr {
-		var entity model2.RoleMenu
+		var entity model.RoleMenu
 		entity.RoleId = req.RoleId
 		entity.MenuId = gconv.Int(v)
 		entity.Insert()

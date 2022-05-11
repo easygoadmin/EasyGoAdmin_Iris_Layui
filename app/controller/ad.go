@@ -26,12 +26,14 @@ package controller
 import (
 	"easygoadmin/app/constant"
 	"easygoadmin/app/dto"
-	model2 "easygoadmin/app/model"
+	"easygoadmin/app/model"
 	"easygoadmin/app/service"
+	"easygoadmin/conf"
 	"easygoadmin/utils"
 	"easygoadmin/utils/common"
 	"github.com/gookit/validate"
 	"github.com/kataras/iris/v12"
+	"strings"
 )
 
 var Ad = new(AdController)
@@ -78,7 +80,7 @@ func (c *AdController) Edit(ctx iris.Context) {
 	// 查询记录
 	id := ctx.Params().GetIntDefault("id", 0)
 	if id > 0 {
-		info := &model2.Ad{Id: id}
+		info := &model.Ad{Id: id}
 		has, err := info.Get()
 		if !has || err != nil {
 			ctx.JSON(common.JsonResult{
@@ -91,9 +93,13 @@ func (c *AdController) Edit(ctx iris.Context) {
 		if info.Cover != "" {
 			info.Cover = utils.GetImageUrl(info.Cover)
 		}
+		// 富文本图片替换处理
+		if info.Content != "" {
+			info.Content = strings.ReplaceAll(info.Content, "[IMG_URL]", conf.CONFIG.EGAdmin.Image)
+		}
 
 		// 广告位列表
-		list := make([]model2.AdSort, 0)
+		list := make([]model.AdSort, 0)
 		utils.XormDb.Where("mark=1").Find(&list)
 		adSortList := make(map[int]string, 0)
 		for _, v := range list {

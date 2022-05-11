@@ -35,6 +35,7 @@ type MemberPageReq struct {
 
 // 添加会员
 type MemberAddReq struct {
+	Id           int    `form:"id"`
 	Username     string `form:"username,unique" validate:"required"` // 用户名
 	Password     string `form:"password"`                            // 登录密码
 	MemberLevel  int    `form:"memberLevel" validate:"int"`          // 会员等级
@@ -121,7 +122,7 @@ type MemberStatusReq struct {
 	Status int `form:"status" validate:"int"`
 }
 
-func (s MemberStatusReq) Messages() map[string]string {
+func (v MemberStatusReq) Messages() map[string]string {
 	return validate.MS{
 		"Id.int":     "会员ID不能为空.",
 		"Status.int": "请选择会员状态.",

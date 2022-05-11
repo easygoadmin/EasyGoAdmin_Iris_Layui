@@ -26,7 +26,7 @@ package controller
 import (
 	"easygoadmin/app/constant"
 	"easygoadmin/app/dto"
-	model2 "easygoadmin/app/model"
+	"easygoadmin/app/model"
 	service2 "easygoadmin/app/service"
 	"easygoadmin/app/vo"
 	"easygoadmin/utils"
@@ -77,14 +77,14 @@ func (c *UserController) List(ctx iris.Context) {
 
 func (c *UserController) Edit(ctx iris.Context) {
 	// 获取职级
-	levelAll := make([]model2.Level, 0)
+	levelAll := make([]model.Level, 0)
 	utils.XormDb.Where("status=1 and mark=1").Find(&levelAll)
 	levelList := make(map[int]string, 0)
 	for _, v := range levelAll {
 		levelList[v.Id] = v.Name
 	}
 	// 获取岗位
-	positionAll := make([]model2.Position, 0)
+	positionAll := make([]model.Position, 0)
 	utils.XormDb.Where("status=1 and mark=1").Find(&positionAll)
 	positionList := make(map[int]string, 0)
 	for _, v := range positionAll {
@@ -94,7 +94,7 @@ func (c *UserController) Edit(ctx iris.Context) {
 	deptData, _ := service2.Dept.GetDeptTreeList()
 	deptList := service2.Dept.MakeList(deptData)
 	// 获取角色
-	roleData := make([]model2.Role, 0)
+	roleData := make([]model.Role, 0)
 	utils.XormDb.Where("status=1 and mark=1").Find(&roleData)
 	roleList := make(map[int]string)
 	for _, v := range roleData {
@@ -104,7 +104,7 @@ func (c *UserController) Edit(ctx iris.Context) {
 	// 查询记录
 	id := ctx.Params().GetIntDefault("id", 0)
 	if id > 0 {
-		info := &model2.User{Id: id}
+		info := &model.User{Id: id}
 		has, err := info.Get()
 		if !has || err != nil {
 			ctx.JSON(common.JsonResult{
@@ -120,7 +120,7 @@ func (c *UserController) Edit(ctx iris.Context) {
 		userInfo.Avatar = utils.GetImageUrl(info.Avatar)
 
 		// 角色ID
-		var userRoleList []model2.UserRole
+		var userRoleList []model.UserRole
 		utils.XormDb.Where("user_id=?", info.Id).Find(&userRoleList)
 		roleIds := make([]interface{}, 0)
 		for _, v := range userRoleList {

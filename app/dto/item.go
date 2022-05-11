@@ -35,6 +35,7 @@ type ItemPageReq struct {
 
 // 添加站点
 type ItemAddReq struct {
+	Id     int    `form:"id"`
 	Name   string `form:"name" validate:"required"` // 站点名称
 	Type   int    `form:"type" validate:"int"`      // 站点类型:1普通站点 2其他
 	Url    string `form:"url" validate:"required"`  // 站点地址
