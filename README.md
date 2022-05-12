@@ -174,8 +174,6 @@ easygoadmin
 
 ![效果图](./public/uploads/demo/23.png)
 
-![效果图](./public/uploads/demo/24.png)
-
 ## ✨  特别鸣谢
 感谢[Iris](https://iris-go.com/)、[Layui](http://www.layui.com)等优秀开源项目。
 
