@@ -44,10 +44,10 @@ layui.use(['func', 'form'], function () {
                         cls = "layui-btn-normal";
                     } else if (d.gender == 2) {
                         // 女
-                        cls = "layui-btn-danger";
+                        cls = "layui-btn-warm";
                     } else if (d.gender == 3) {
                         // 保密
-                        cls = "layui-btn-warm";
+                        cls = "layui-btn-danger";
                     }
                     return '<span class="layui-btn ' + cls + ' layui-btn-xs">' + d.genderName + '</span>';
                 }
@@ -65,7 +65,8 @@ layui.use(['func', 'form'], function () {
                     return '<input type="checkbox" name="status" value="' + d.id + '" lay-skin="switch" lay-text="正常|禁用" lay-filter="status" ' + (d.status == 1 ? 'checked' : '') + '>';
                 }
             }
-            , {field: 'cityName', width: 250, title: '所在地区', align: 'center'}
+            , {field: 'cityName', width: 200, title: '所在地区', align: 'center'}
+            , {field: 'address', width: 250, title: '详细地址', align: 'center'}
             , {field: 'device', width: 100, title: '设备类型', align: 'center', templet(d) {
                     var cls = "";
                     if (d.device == 1) {
@@ -73,10 +74,10 @@ layui.use(['func', 'form'], function () {
                         cls = "layui-btn-normal";
                     } else if (d.device == 2) {
                         // 安卓
-                        cls = "layui-btn-danger";
+                        cls = "layui-btn-warm";
                     } else if (d.device == 3) {
                         // WAP站
-                        cls = "layui-btn-warm";
+                        cls = "layui-btn-danger";
                     } else if (d.device == 4) {
                         // PC站
                         cls = "layui-btn-primary";
@@ -94,7 +95,7 @@ layui.use(['func', 'form'], function () {
                         cls = "layui-btn-normal";
                     } else if (d.source == 2) {
                         // 马甲会员
-                        cls = "layui-btn-danger";
+                        cls = "layui-btn-primary";
                     }
                     return '<span class="layui-btn ' + cls + ' layui-btn-xs">'+d.sourceName+'</span>';
                 }}

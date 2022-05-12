@@ -65,7 +65,7 @@ func (s *itemCateService) GetList(req dto.ItemCateQueryReq) []vo.ItemCateInfoVo 
 		// 获取栏目
 		if v.ItemId > 0 {
 			var itemInfo model.Item
-			utils.XormDb.Id(item.Id).Get(&itemInfo)
+			utils.XormDb.Id(v.ItemId).Get(&itemInfo)
 			item.ItemName = itemInfo.Name
 		}
 		// 加入数组

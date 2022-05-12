@@ -38,17 +38,23 @@ layui.use(['func'], function () {
               {field: 'id', width: 80, title: 'ID', align: 'center', sort: true}
             , {field: 'name', width: 200, title: '栏目名称', align: 'left'}
             , {field: 'itemName', width: 200, title: '所属站点', align: 'center'}
-            , {field: 'pinyin', width: 150, title: '拼音(全)', align: 'center'}
-            , {field: 'code', width: 100, title: '拼音(简)', align: 'center'}
-            , {field: 'is_cover', width: 100, title: '有无封面', align: 'center', templet(d) {
-                    if (d.is_cover == 1) {
+            , {field: 'pinyin', width: 120, title: '拼音(全)', align: 'center'}
+            , {field: 'code', width: 120, title: '拼音(简)', align: 'center'}
+            , {field: 'isCover', width: 100, title: '有无封面', align: 'center', templet(d) {
+                    if (d.isCover == 1) {
                         // 有封面
                         return '<span class="layui-btn layui-btn-normal layui-btn-xs">有封面</span>';
                     } else {
                         // 无封面
-                        return '<span class="layui-btn layui-btn-danger layui-btn-xs">有封面</span>';
+                        return '<span class="layui-btn layui-btn-danger layui-btn-xs">无封面</span>';
                     }
                 }}
+            , {field: 'cover', width: 100, title: '封面', align: 'center', templet: function (d) {
+                    if (d.cover != "") {
+                        return '<a href="' + d.cover + '" target="_blank"><img src="' + d.cover + '" height="26" /></a>';
+                    }
+                }
+            }
             , {field: 'status', width: 100, title: '状态', align: 'center', templet(d) {
                 if (d.status == 1) {
                     // 在用
