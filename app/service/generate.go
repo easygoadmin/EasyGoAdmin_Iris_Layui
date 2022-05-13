@@ -708,6 +708,8 @@ func GeneratePermission(modelName string, modelTitle string, userId int) error {
 		item.Sort = v
 		item.CreateUser = userId
 		item.CreateTime = time.Now().Unix()
+		item.UpdateUser = userId
+		item.UpdateTime = time.Now().Unix()
 		item.Mark = 1
 
 		// 权限节点

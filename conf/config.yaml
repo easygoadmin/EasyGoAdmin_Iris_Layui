@@ -45,7 +45,7 @@ easygoadmin:
   # 名称
   name: "EasyGoAdmin敏捷开发框架"
   # 版本号
-  version: "v2.0.0"
+  version: "v2.1.0"
   # IP地址
   addr: 0.0.0.0
   # 端口号
